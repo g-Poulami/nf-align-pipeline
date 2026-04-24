@@ -96,12 +96,13 @@ workflow {
     // ------------------------------------------------------------------
     // Aggregate QC report
     // ------------------------------------------------------------------
+    
     if (params.run_multiqc) {
         ch_multiqc_files = Channel.empty()
-            .mix(FASTQC_RAW.out.zip)
-            .mix(FASTQC_TRIMMED.out.zip)
-            .mix(TRIMMOMATIC.out.log)
-            .mix(SAMTOOLS_FLAGSTAT.out.flagstat)
+            .mix(FASTQC_RAW.out.zip.map { meta, files -> files })
+            .mix(FASTQC_TRIMMED.out.zip.map { meta, files -> files })
+            .mix(TRIMMOMATIC.out.log.map { meta, log -> log })
+            .mix(SAMTOOLS_FLAGSTAT.out.flagstat.map { meta, file -> file })
             .collect()
 
         MULTIQC(ch_multiqc_files)
