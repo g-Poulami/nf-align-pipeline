@@ -1,0 +1,14 @@
+work/
+.nextflow/
+.nextflow.log*
+results/
+test_results/
+stub_results/
+integration_results/
+.conda/
+singularity/
+__pycache__/
+*.py[cod]
+.DS_Store
+.idea/
+.vscode/
