@@ -185,3 +185,17 @@ nf-align-pipeline/
 ## License
 
 MIT
+
+## Results
+
+Pipeline run on SRR062634 (100,000 reads subset, chr22 reference, GRCh38).
+
+| Metric | Value |
+|--------|-------|
+| Total reads | 195,301 |
+| Mapped reads | 55,273 |
+| Mapping rate | 27.7% |
+| Properly paired | 16.9% |
+
+Mapping rate is expected to be low because the sample contains reads from
+all chromosomes and only chr22 was used as the reference.
