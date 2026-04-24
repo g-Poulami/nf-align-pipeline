@@ -199,3 +199,9 @@ Pipeline run on SRR062634 (100,000 reads subset, chr22 reference, GRCh38).
 
 Mapping rate is expected to be low because the sample contains reads from
 all chromosomes and only chr22 was used as the reference.
+
+## QC Report
+
+Full MultiQC report from a test run on SRR062634 (100,000 reads, chr22):
+
+https://g-Poulami.github.io/nf-align-pipeline/multiqc_report.html
