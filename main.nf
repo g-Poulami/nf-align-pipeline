@@ -19,22 +19,19 @@ include { SAMTOOLS_INDEX           } from './modules/samtools'
 include { SAMTOOLS_FLAGSTAT        } from './modules/samtools'
 include { MULTIQC                  } from './modules/multiqc'
 
-log.info """
-    nf-align-pipeline  v${workflow.manifest.version}
-    =========================================
-    reads      : ${params.reads}
-    genome     : ${params.genome}
-    outdir     : ${params.outdir}
-    """.stripIndent()
-
-def validateParams() {
-    if (!params.reads)  error "ERROR: --reads is required"
-    if (!params.genome) error "ERROR: --genome is required"
-}
-
 workflow {
 
-    validateParams()
+    // Validate required parameters
+    if (!params.reads)  error "ERROR: --reads is required"
+    if (!params.genome) error "ERROR: --genome is required"
+
+    log.info """
+        nf-align-pipeline  v${workflow.manifest.version}
+        =========================================
+        reads      : ${params.reads}
+        genome     : ${params.genome}
+        outdir     : ${params.outdir}
+    """.stripIndent()
 
     // ------------------------------------------------------------------
     // Input channels
@@ -75,14 +72,11 @@ workflow {
     // ------------------------------------------------------------------
     BWA_INDEX(ch_genome)
 
-    // BWA_INDEX emits: tuple(fasta, [index_files])
-    // Combine each sample's trimmed reads with the shared index tuple
     ch_bwa_input = TRIMMOMATIC.out.trimmed_reads
         .combine(BWA_INDEX.out.index)
 
     // ------------------------------------------------------------------
-    // Align — emits SAM (not BAM; conversion happens in SAMTOOLS_SORT
-    // so that samtools only runs inside its own container)
+    // Align — emits SAM; conversion happens in SAMTOOLS_SORT
     // ------------------------------------------------------------------
     BWA_MEM(ch_bwa_input)
 
@@ -96,12 +90,12 @@ workflow {
     // ------------------------------------------------------------------
     // Aggregate QC report
     // ------------------------------------------------------------------
-    
     if (params.run_multiqc) {
+
         ch_multiqc_files = Channel.empty()
-            .mix(FASTQC_RAW.out.zip.map { meta, files -> files })
-            .mix(FASTQC_TRIMMED.out.zip.map { meta, files -> files })
-            .mix(TRIMMOMATIC.out.log.map { meta, log -> log })
+            .mix(FASTQC_RAW.out.zip.map        { meta, files -> files })
+            .mix(FASTQC_TRIMMED.out.zip.map    { meta, files -> files })
+            .mix(TRIMMOMATIC.out.log.map        { meta, log   -> log   })
             .mix(SAMTOOLS_FLAGSTAT.out.flagstat.map { meta, file -> file })
             .collect()
 
@@ -112,10 +106,10 @@ workflow {
 workflow.onComplete {
     def status = workflow.success ? "SUCCESS" : "FAILED"
     log.info """
-    Pipeline ${status}
-    Completed : ${workflow.complete}
-    Duration  : ${workflow.duration}
-    Output    : ${params.outdir}
+        Pipeline ${status}
+        Completed : ${workflow.complete}
+        Duration  : ${workflow.duration}
+        Output    : ${params.outdir}
     """.stripIndent()
 }
 
