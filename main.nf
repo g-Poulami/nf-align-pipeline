@@ -102,17 +102,3 @@ workflow {
         MULTIQC(ch_multiqc_files)
     }
 }
-
-workflow.onComplete {
-    def status = workflow.success ? "SUCCESS" : "FAILED"
-    log.info """
-        Pipeline ${status}
-        Completed : ${workflow.complete}
-        Duration  : ${workflow.duration}
-        Output    : ${params.outdir}
-    """.stripIndent()
-}
-
-workflow.onError {
-    log.error "Pipeline failed: ${workflow.errorMessage}"
-}
