@@ -6,12 +6,18 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  # Opt into Node.js 24 now to avoid the forced migration warning on June 2 2026.
+  # Remove this line once all actions (nf-core/setup-nextflow, actions/setup-java)
+  # publish Node.js 24-native releases.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4          # v4.2+ uses Node 20; pin to @v4 tag which auto-updates
       - uses: nf-core/setup-nextflow@v2
         with:
           version: "latest-stable"

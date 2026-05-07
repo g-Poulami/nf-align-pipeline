@@ -2,7 +2,7 @@
 
 FastQC -> Trimmomatic -> BWA -> SAMtools short-read alignment pipeline in Nextflow DSL2.
 
-[![CI](https://github.com/yourname/nf-align-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/yourname/nf-align-pipeline/actions/workflows/ci.yml)
+[![CI](https://github.com/g-Poulami/nf-align-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/g-Poulami/nf-align-pipeline/actions/workflows/ci.yml)
 ![Nextflow](https://img.shields.io/badge/nextflow-%E2%89%A523.04.0-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -65,7 +65,7 @@ sudo mv nextflow /usr/local/bin/
 ### Stub run — no tools required
 
 ```bash
-git clone https://github.com/yourname/nf-align-pipeline.git
+git clone https://github.com/g-Poulami/nf-align-pipeline.git
 cd nf-align-pipeline
 python3 test/generate_test_data.py
 nextflow run main.nf -profile test -stub-run
