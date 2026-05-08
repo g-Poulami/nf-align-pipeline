@@ -1,29 +1,15 @@
 /*
     SAMTOOLS
 
-    SAMTOOLS_SORT
-    -------------
-    Input : [ meta, sam ]   (SAM from BWA_MEM)
-    Output: [ meta, sorted_bam ]
-
-    samtools sort accepts both SAM and BAM as input, so no explicit
-    conversion step is needed. The output is always a sorted BAM.
-
-    SAMTOOLS_INDEX
-    --------------
-    Input : [ meta, sorted_bam ]
-    Output: [ meta, bai ]
-
-    SAMTOOLS_FLAGSTAT
-    -----------------
-    Input : [ meta, sorted_bam ]
-    Output: [ meta, flagstat ]   (plain text, collected by MultiQC)
+    SAMTOOLS_SORT   : SAM -> sorted BAM
+    SAMTOOLS_INDEX  : sorted BAM -> BAI
+    SAMTOOLS_FLAGSTAT : sorted BAM -> flagstat
 */
 
 process SAMTOOLS_SORT {
-    tag        "${meta.id}"
+    tag        { meta.id }
     label      'process_medium'
-    publishDir "${params.outdir}/samtools/${meta.id}", mode: 'copy'
+    publishDir { "${params.outdir}/samtools/${meta.id}" }, mode: 'copy'
 
     input:
     tuple val(meta), path(sam)
@@ -47,9 +33,9 @@ process SAMTOOLS_SORT {
 }
 
 process SAMTOOLS_INDEX {
-    tag        "${meta.id}"
+    tag        { meta.id }
     label      'process_single'
-    publishDir "${params.outdir}/samtools/${meta.id}", mode: 'copy'
+    publishDir { "${params.outdir}/samtools/${meta.id}" }, mode: 'copy'
 
     input:
     tuple val(meta), path(bam)
@@ -69,9 +55,9 @@ process SAMTOOLS_INDEX {
 }
 
 process SAMTOOLS_FLAGSTAT {
-    tag        "${meta.id}"
+    tag        { meta.id }
     label      'process_single'
-    publishDir "${params.outdir}/samtools/${meta.id}", mode: 'copy'
+    publishDir { "${params.outdir}/samtools/${meta.id}" }, mode: 'copy'
 
     input:
     tuple val(meta), path(bam)

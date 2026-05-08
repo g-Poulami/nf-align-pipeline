@@ -10,13 +10,10 @@
     -------
     Input : [ meta, [R1, R2], fasta, [index_files] ]
     Output: [ meta, sam ]
-
-    Writes SAM not BAM. SAMTOOLS_SORT handles conversion in its own
-    container so no cross-container pipe is needed.
 */
 
 process BWA_INDEX {
-    tag        "${fasta.baseName}"
+    tag        { fasta.baseName }
     label      'process_high'
     publishDir "${params.outdir}/bwa_index", mode: 'copy'
 
@@ -38,9 +35,9 @@ process BWA_INDEX {
 }
 
 process BWA_MEM {
-    tag        "${meta.id}"
+    tag        { meta.id }
     label      'process_high'
-    publishDir "${params.outdir}/bwa_mem/${meta.id}", mode: 'copy'
+    publishDir { "${params.outdir}/bwa_mem/${meta.id}" }, mode: 'copy'
 
     input:
     tuple val(meta), path(reads), path(fasta), path(index)
