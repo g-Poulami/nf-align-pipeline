@@ -7,7 +7,7 @@
 process TRIMMOMATIC {
     tag        { meta.id }
     label      'process_medium'
-    publishDir { "${params.outdir}/trimmomatic/${meta.id}" }, mode: 'copy',
+    publishDir "${params.outdir}/trimmomatic", mode: 'copy',
                saveAs: { filename -> filename.endsWith('.log') ? filename : null }
 
     input:

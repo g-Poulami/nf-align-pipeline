@@ -37,7 +37,7 @@ process BWA_INDEX {
 process BWA_MEM {
     tag        { meta.id }
     label      'process_high'
-    publishDir { "${params.outdir}/bwa_mem/${meta.id}" }, mode: 'copy'
+    publishDir "${params.outdir}/bwa_mem", mode: 'copy'
 
     input:
     tuple val(meta), path(reads), path(fasta), path(index)

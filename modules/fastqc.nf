@@ -5,9 +5,9 @@
 */
 
 process FASTQC {
-    tag        "${meta.id}"
+    tag        { meta.id }
     label      'process_medium'
-    publishDir "${params.outdir}/fastqc/${meta.id}", mode: 'copy'
+    publishDir "${params.outdir}/fastqc", mode: 'copy'
 
     input:
     tuple val(meta), path(reads)

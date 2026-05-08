@@ -9,7 +9,7 @@
 process SAMTOOLS_SORT {
     tag        { meta.id }
     label      'process_medium'
-    publishDir { "${params.outdir}/samtools/${meta.id}" }, mode: 'copy'
+    publishDir "${params.outdir}/samtools", mode: 'copy'
 
     input:
     tuple val(meta), path(sam)
@@ -35,7 +35,7 @@ process SAMTOOLS_SORT {
 process SAMTOOLS_INDEX {
     tag        { meta.id }
     label      'process_single'
-    publishDir { "${params.outdir}/samtools/${meta.id}" }, mode: 'copy'
+    publishDir "${params.outdir}/samtools", mode: 'copy'
 
     input:
     tuple val(meta), path(bam)
@@ -57,7 +57,7 @@ process SAMTOOLS_INDEX {
 process SAMTOOLS_FLAGSTAT {
     tag        { meta.id }
     label      'process_single'
-    publishDir { "${params.outdir}/samtools/${meta.id}" }, mode: 'copy'
+    publishDir "${params.outdir}/samtools", mode: 'copy'
 
     input:
     tuple val(meta), path(bam)
